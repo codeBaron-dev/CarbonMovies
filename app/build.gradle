@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.codebaron.netflix"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ProjectLevel.core)
+    implementation project(path: ProjectLevel.domain)
+    implementation (ExternalDependencies.coreKtx)
+    implementation (ExternalDependencies.composeUI)
+    implementation (ExternalDependencies.material)
+    implementation (ExternalDependencies.uiTooling)
+    implementation (ExternalDependencies.lifeCircleRuntime)
+    implementation (ExternalDependencies.composeActivity)
+    testImplementation (ExternalDependencies.testImplementation)
+    androidTestImplementation(ExternalDependencies.extJunit)
+    androidTestImplementation (ExternalDependencies.espressoCore)
+    androidTestImplementation (ExternalDependencies.uiTest)
+    debugImplementation (ExternalDependencies.uiTooling)
+    debugImplementation (ExternalDependencies.uiTestManifest)
+    implementation (ExternalDependencies.navigation)
+    implementation (ExternalDependencies.coil)
+    implementation (ExternalDependencies.retrofit)
+    implementation (ExternalDependencies.gson)
+    implementation (ExternalDependencies.interceptor)
+    testImplementation (ExternalDependencies.mockWebServer)
+    implementation (ExternalDependencies.daggerHilt)
+    kapt (ExternalDependencies.kaptCompiler)
+    kaptAndroidTest (ExternalDependencies.kaptCompiler)
+    androidTestImplementation  (ExternalDependencies.hiltTesting)
+    implementation (ExternalDependencies.hiltNavigation)
+    implementation (ExternalDependencies.legacySupport)
+    implementation (ExternalDependencies.lifeCircleExtensions)
+    implementation (ExternalDependencies.viewModelKtx)
+    implementation (ExternalDependencies.runtimeLiveData)
+    implementation (ExternalDependencies.roomDatabase)
+    kapt (ExternalDependencies.roomDatabaseCompiler)
+    androidTestImplementation(ExternalDependencies.roomDatabaseTesting)
+    implementation (ExternalDependencies.constraintLayout)
+    implementation (ExternalDependencies.materialIcons)
+    implementation (ExternalDependencies.coroutines)
+}
