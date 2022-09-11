@@ -39,7 +39,7 @@ object ExternalDependencies {
     const val kaptAndroidTest = "com.google.dagger:hilt-compiler:${Versions.hilt}"
     const val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
     const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
-    const val legacySupport = "androidx.legacy:legacy-support-v4${Versions.legacySupport}"
+    const val legacySupport = "androidx.legacy:legacy-support-v4:${Versions.legacySupport}"
     const val lifeCircleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifeCircleExtensions}"
     const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelKtx}"
     const val runtimeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.composeVersion}"

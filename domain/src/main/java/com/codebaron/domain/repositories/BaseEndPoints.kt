@@ -2,6 +2,7 @@ package com.codebaron.domain.repositories
 
 import com.codebaron.core.MOVIE_DETAILS
 import com.codebaron.core.POPULAR_MOVIES_API
+import com.codebaron.core.SIMILAR_MOVIES
 import com.codebaron.domain.models.moviedetails.FilmDetailsData
 import com.codebaron.domain.models.movies.AllMovies
 import retrofit2.Response
@@ -29,4 +30,11 @@ interface BaseEndPoints {
         @Query("api_key", encoded = true) apiKey: String,
         @Query("language", encoded = true) language: String
     ): Response<FilmDetailsData>
+
+    @GET(SIMILAR_MOVIES)
+    suspend fun getSimilarMovies(
+        @Path("movie_id", encoded = true) movieId: String,
+        @Query("api_key", encoded = true) apiKey: String,
+        @Query("language", encoded = true) language: String
+    ): Response<AllMovies>
 }

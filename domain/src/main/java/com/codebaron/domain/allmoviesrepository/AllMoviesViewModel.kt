@@ -1,5 +1,6 @@
 package com.codebaron.domain.allmoviesrepository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,8 +24,9 @@ import javax.inject.Inject
 class AllMoviesViewModel @Inject constructor(private val repositoriesManager: RepositoriesManager) :
     ViewModel() {
 
-    private val _allMovies = MutableLiveData<ResponseStateHandler<List<Result>?>>()
-    private val _movieDetails = MutableLiveData<ResponseStateHandler<FilmDetailsData?>>()
+    private val _allMovies = MutableLiveData<List<Result>?>()
+    private val _movieDetails = MutableLiveData<FilmDetailsData?>()
+    private val _similarMovies = MutableLiveData<List<Result>>()
 
     /**
      * This function get result from [RepositoriesManager] and update the UI
@@ -36,9 +38,9 @@ class AllMoviesViewModel @Inject constructor(private val repositoriesManager: Re
         apiKey: String,
         language: String,
         page: String
-    ): MutableLiveData<ResponseStateHandler<List<Result>?>> {
+    ): LiveData<List<Result>?> {
         viewModelScope.launch {
-            _allMovies.postValue(repositoriesManager.getAllMovies(apiKey, language, page).value)
+            _allMovies.postValue(repositoriesManager.getAllMovies(apiKey, language, page))
         }
         return _allMovies
     }
@@ -53,16 +55,33 @@ class AllMoviesViewModel @Inject constructor(private val repositoriesManager: Re
         apiKey: String,
         language: String,
         movieId: String
-    ): MutableLiveData<ResponseStateHandler<FilmDetailsData?>> {
+    ): LiveData<FilmDetailsData?> {
         viewModelScope.launch {
             _movieDetails.postValue(
                 repositoriesManager.getMovieDetails(
                     apiKey,
                     language,
                     movieId
-                ).value
+                )
             )
         }
         return _movieDetails
+    }
+
+    /**
+     * This function get result from [RepositoriesManager] and update the UI
+     * @param apiKey
+     * @param language
+     * @param movieId
+     */
+    fun getSimilarMovies(
+        apiKey: String,
+        language: String,
+        movieId: String
+    ): LiveData<List<Result>> {
+        viewModelScope.launch {
+            _similarMovies.postValue(repositoriesManager.getSimilarFilms(apiKey, language, movieId))
+        }
+        return _similarMovies
     }
 }

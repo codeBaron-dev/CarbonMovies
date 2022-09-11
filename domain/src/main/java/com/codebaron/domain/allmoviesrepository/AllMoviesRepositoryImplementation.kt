@@ -1,6 +1,5 @@
 package com.codebaron.domain.allmoviesrepository
 
-import androidx.lifecycle.MutableLiveData
 import com.codebaron.domain.models.moviedetails.FilmDetailsData
 import com.codebaron.domain.models.movies.Result
 import com.codebaron.domain.repositories.BaseEndPoints
@@ -12,9 +11,12 @@ import com.codebaron.domain.repositories.errormanager.ErrorMapper
  * @author Anyanwu Nicholas
  * @since 10-09-2022
  */
-class AllMoviesRepositoryImplementation(private val baseEndPoints: BaseEndPoints) : RepositoriesManager {
+class AllMoviesRepositoryImplementation(private val baseEndPoints: BaseEndPoints) :
+    RepositoriesManager {
 
     var errorMapper: ErrorMapper = ErrorMapper()
+    private var movies: List<Result>? = emptyList()
+    private var movieDetails: FilmDetailsData? = null
 
     /**
      * This function makes network request to get all movies from remote server
@@ -29,22 +31,18 @@ class AllMoviesRepositoryImplementation(private val baseEndPoints: BaseEndPoints
         apiKey: String,
         language: String,
         page: String
-    ): MutableLiveData<ResponseStateHandler<List<Result>?>> {
-        val responseState: MutableLiveData<ResponseStateHandler<List<Result>?>> =
-            MutableLiveData()
-        responseState.postValue(ResponseStateHandler.Loading)
+    ): List<Result>? {
         val response = baseEndPoints.getPopularMovies(apiKey, language, page)
         try {
             if (response.isSuccessful) {
-                responseState.postValue(ResponseStateHandler.Success(response.body()?.results))
+                val result = response.body()?.results
+                movies = result ?: emptyList()
             } else {
                 val error = errorMapper.parseErrorMessage(response.errorBody())
-                responseState.postValue(ResponseStateHandler.ErrorMessage(error?.message))
             }
-        }catch (exception: Exception) {
-            responseState.postValue(ResponseStateHandler.Exception(exception))
+        } catch (exception: Exception) {
         }
-        return responseState
+        return movies
     }
 
     /**
@@ -60,21 +58,44 @@ class AllMoviesRepositoryImplementation(private val baseEndPoints: BaseEndPoints
         apiKey: String,
         language: String,
         movieId: String
-    ): MutableLiveData<ResponseStateHandler<FilmDetailsData?>> {
-        val responseState: MutableLiveData<ResponseStateHandler<FilmDetailsData?>> =
-            MutableLiveData()
-        responseState.postValue(ResponseStateHandler.Loading)
+    ): FilmDetailsData? {
         val response = baseEndPoints.getMovieDetails(movieId, apiKey, language)
         try {
             if (response.isSuccessful) {
-                responseState.postValue(ResponseStateHandler.Success(response.body()))
+                val result = response.body()
+                movieDetails = result
             } else {
                 val error = errorMapper.parseErrorMessage(response.errorBody())
-                responseState.postValue(ResponseStateHandler.ErrorMessage(error?.message))
             }
         } catch (exception: Exception) {
-            responseState.postValue(ResponseStateHandler.Exception(exception))
         }
-        return responseState
+        return movieDetails
+    }
+
+    /**
+     * This function makes network request to get similar movies from remote server
+     * @param apiKey
+     * @param language
+     * @param movieId
+     * @see ResponseStateHandler
+     * @see BaseEndPoints
+     * @see RepositoriesManager
+     */
+    override suspend fun getSimilarFilms(
+        apiKey: String,
+        language: String,
+        movieId: String
+    ): List<Result>? {
+        val response = baseEndPoints.getSimilarMovies(movieId, apiKey, language)
+        try {
+            if (response.isSuccessful) {
+                val result = response.body()?.results
+                movies = result ?: emptyList()
+            } else {
+                val error = errorMapper.parseErrorMessage(response.errorBody())
+            }
+        } catch (exception: Exception) {
+        }
+        return movies
     }
 }
