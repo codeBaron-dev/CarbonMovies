@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.codebaron.netflix.screens
 
 import android.widget.Toast
@@ -8,7 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
@@ -40,7 +41,7 @@ import coil.request.ImageRequest
 import com.codebaron.core.*
 import com.codebaron.domain.allmoviesrepository.AllMoviesViewModel
 import com.codebaron.domain.models.movies.Result
-import com.codebaron.domain.models.movies.trendingResultDummy
+import com.codebaron.domain.models.movies.resultDummy
 import com.codebaron.domain.roomdb.MovieDatabase
 import com.codebaron.netflix.MainActivity
 import com.codebaron.netflix.R
@@ -65,9 +66,9 @@ fun MovieRequestHandler(
             mainActivity
         ).observeAsState(emptyList())
         HomeScreen(
-            movies!!.ifEmpty { trendingResultDummy },
-            movies!!.ifEmpty { trendingResultDummy },
-            movies!!.ifEmpty { trendingResultDummy },
+            movies!!.ifEmpty { resultDummy },
+            movies!!.ifEmpty { resultDummy },
+            movies!!.ifEmpty { resultDummy },
             navigationController,
             networkState
         )
@@ -172,7 +173,7 @@ fun HeaderBar() {
                             .height(35.dp)
                             .width(40.dp)
                             .clip(RoundedCornerShape(5.dp)),
-                        painter = painterResource(id = R.drawable.ic_baseline_video_library_24),
+                        painter = painterResource(id = R.drawable.anime),
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )
@@ -625,9 +626,9 @@ fun TopRated(videos: List<Result>, navigationController: NavHostController) {
 fun MoviePreview() {
     NetflixTheme {
         MovieHeaderView(
-            trendingResultDummy,
-            trendingResultDummy,
-            trendingResultDummy,
+            resultDummy,
+            resultDummy,
+            resultDummy,
             rememberNavController(),
             true
         )

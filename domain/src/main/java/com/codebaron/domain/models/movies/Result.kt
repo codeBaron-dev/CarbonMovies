@@ -47,7 +47,7 @@ val video: Boolean? = null,
 val vote_average: Double? = null,
 val vote_count: Int? = null*/
 
-val trendingResultDummy = listOf(
+val resultDummy = listOf(
     Result(
         adult = false,
         backdrop_path = "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",

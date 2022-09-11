@@ -48,7 +48,7 @@ import com.codebaron.domain.models.moviedetails.FilmDetailsData
 import com.codebaron.domain.models.moviedetails.dummyFilmDetailsData
 import com.codebaron.domain.models.moviedetails.dummyGenre
 import com.codebaron.domain.models.movies.Result
-import com.codebaron.domain.models.movies.trendingResultDummy
+import com.codebaron.domain.models.movies.resultDummy
 import com.codebaron.netflix.R
 import com.codebaron.netflix.ui.theme.NetflixTheme
 import kotlinx.coroutines.delay
@@ -67,7 +67,7 @@ fun FilmDetailsRequestHandler(
         LaunchedEffect(Unit) {
             delay(3000)
         }
-        FilmDetailsScreen(filmDetails, similarMovies?.ifEmpty { trendingResultDummy })
+        FilmDetailsScreen(filmDetails, similarMovies?.ifEmpty { resultDummy })
     }
 }
 
@@ -411,6 +411,6 @@ fun SimilarMovies(similarMovies: List<Result>) {
 @Composable
 fun DetailsDisplay() {
     NetflixTheme {
-        FilmDetailsScreen(dummyFilmDetailsData, trendingResultDummy)
+        FilmDetailsScreen(dummyFilmDetailsData, resultDummy)
     }
 }
