@@ -52,6 +52,7 @@ dependencies {
     implementation (ExternalDependencies.coil)
     implementation (ExternalDependencies.retrofit)
     implementation (ExternalDependencies.gson)
+    implementation (ExternalDependencies.codeGson)
     implementation (ExternalDependencies.interceptor)
     testImplementation (ExternalDependencies.mockWebServer)
     implementation (ExternalDependencies.daggerHilt)
@@ -69,4 +70,6 @@ dependencies {
     implementation (ExternalDependencies.constraintLayout)
     implementation (ExternalDependencies.materialIcons)
     implementation (ExternalDependencies.coroutines)
+    implementation (ExternalDependencies.coreTesting)
+    implementation (ExternalDependencies.moshiConverter)
 }

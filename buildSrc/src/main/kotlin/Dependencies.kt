@@ -8,6 +8,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val interceptor = "4.9.1"
     const val gson = "2.9.0"
+    const val codeGson = "2.8.2"
     const val mockWebServer = "4.9.1"
     const val hilt = "2.38.1"
     const val hiltNavigation = "1.0.0"
@@ -25,6 +26,8 @@ object Versions {
     const val junit = "4.13.2"
     const val extJunit = "1.1.3"
     const val espressoCore = "3.4.0"
+    const val coreTesting = "2.1.0"
+    const val moshi = "2.4.0"
 }
 
 object ExternalDependencies {
@@ -33,6 +36,7 @@ object ExternalDependencies {
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val interceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.interceptor}"
     const val gson = "com.squareup.retrofit2:converter-gson:${Versions.gson}"
+    const val codeGson = "com.google.code.gson:gson:${Versions.codeGson}"
     const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.mockWebServer}"
     const val daggerHilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     const val kaptCompiler = "com.google.dagger:hilt-compiler:${Versions.hilt}"
@@ -62,4 +66,6 @@ object ExternalDependencies {
     const val uiTest = "androidx.compose.ui:ui-test-junit4:${Versions.composeVersion}"
     const val uiTooling = "androidx.compose.ui:ui-tooling:${Versions.composeVersion}"
     const val uiTestManifest = "androidx.compose.ui:ui-test-manifest:${Versions.composeVersion}"
+    const val coreTesting = "androidx.arch.core:core-testing:${Versions.coreTesting}"
+    const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.moshi}"
 }
