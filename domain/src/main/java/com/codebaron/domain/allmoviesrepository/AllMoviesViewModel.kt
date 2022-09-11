@@ -1,5 +1,6 @@
 package com.codebaron.domain.allmoviesrepository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,10 +38,11 @@ class AllMoviesViewModel @Inject constructor(private val repositoriesManager: Re
     fun getAllMovies(
         apiKey: String,
         language: String,
-        page: String
+        page: String,
+        mainActivity: Context
     ): LiveData<List<Result>?> {
         viewModelScope.launch {
-            _allMovies.postValue(repositoriesManager.getAllMovies(apiKey, language, page))
+            _allMovies.postValue(repositoriesManager.getAllMovies(apiKey, language, page, mainActivity))
         }
         return _allMovies
     }

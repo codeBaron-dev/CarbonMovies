@@ -1,11 +1,13 @@
 package com.codebaron.domain.allmoviesrepository
 
+import android.content.Context
 import com.codebaron.domain.models.moviedetails.FilmDetailsData
 import com.codebaron.domain.models.movies.Result
 import com.codebaron.domain.repositories.BaseEndPoints
 import com.codebaron.domain.repositories.RepositoriesManager
 import com.codebaron.domain.repositories.ResponseStateHandler
 import com.codebaron.domain.repositories.errormanager.ErrorMapper
+import com.codebaron.domain.roomdb.MovieDatabase
 
 /**
  * @author Anyanwu Nicholas
@@ -14,7 +16,7 @@ import com.codebaron.domain.repositories.errormanager.ErrorMapper
 class AllMoviesRepositoryImplementation(private val baseEndPoints: BaseEndPoints) :
     RepositoriesManager {
 
-    var errorMapper: ErrorMapper = ErrorMapper()
+    private var errorMapper: ErrorMapper = ErrorMapper()
     private var movies: List<Result>? = emptyList()
     private var movieDetails: FilmDetailsData? = null
 
@@ -30,13 +32,16 @@ class AllMoviesRepositoryImplementation(private val baseEndPoints: BaseEndPoints
     override suspend fun getAllMovies(
         apiKey: String,
         language: String,
-        page: String
+        page: String,
+        mainActivity: Context
     ): List<Result>? {
         val response = baseEndPoints.getPopularMovies(apiKey, language, page)
         try {
             if (response.isSuccessful) {
                 val result = response.body()?.results
                 movies = result ?: emptyList()
+                val localDatabase = MovieDatabase(mainActivity)
+                localDatabase.MoviesDao().insertMovies(result)
             } else {
                 val error = errorMapper.parseErrorMessage(response.errorBody())
             }

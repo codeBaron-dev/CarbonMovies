@@ -41,6 +41,7 @@ import com.codebaron.core.*
 import com.codebaron.domain.allmoviesrepository.AllMoviesViewModel
 import com.codebaron.domain.models.movies.Result
 import com.codebaron.domain.models.movies.trendingResultDummy
+import com.codebaron.domain.roomdb.MovieDatabase
 import com.codebaron.netflix.MainActivity
 import com.codebaron.netflix.R
 import com.codebaron.netflix.navigation.Destinations
@@ -55,9 +56,14 @@ fun MovieRequestHandler(
     navigationController: NavHostController,
     allMoviesViewModel: AllMoviesViewModel = hiltViewModel()
 ) {
-    if (networkState) {
-        val movies by allMoviesViewModel.getAllMovies(API_KEY, LANGUAGE_TYPE, PAGE_PARAM)
-            .observeAsState(emptyList())
+    val localDatabase = MovieDatabase(mainActivity).MoviesDao().getAllLocalMovies()
+    if (networkState){
+        val movies by allMoviesViewModel.getAllMovies(
+            API_KEY,
+            LANGUAGE_TYPE,
+            PAGE_PARAM,
+            mainActivity
+        ).observeAsState(emptyList())
         HomeScreen(
             movies!!.ifEmpty { trendingResultDummy },
             movies!!.ifEmpty { trendingResultDummy },
@@ -65,17 +71,16 @@ fun MovieRequestHandler(
             navigationController,
             networkState
         )
-
     } else {
+        Toast.makeText(mainActivity, "Displaying old data", Toast.LENGTH_SHORT).show()
         HomeScreen(
-            trendingResultDummy,
-            trendingResultDummy,
-            trendingResultDummy,
+            localDatabase,
+            localDatabase,
+            localDatabase,
             navigationController,
             networkState
         )
     }
-
 }
 
 
