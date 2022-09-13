@@ -400,16 +400,20 @@ fun MovieHeaderView(
             }
         }
         Spacer(modifier = Modifier.size(10.dp))
-        PopularMoviesList(popularFilmsList!!, navigationController)
+        PopularMoviesList(popularFilmsList!!, navigationController, networkState)
         Spacer(modifier = Modifier.size(1.dp))
-        TrendingNowList(trendingFilmsList!!, navigationController)
+        TrendingNowList(trendingFilmsList!!, navigationController, networkState)
         Spacer(modifier = Modifier.size(1.dp))
-        TopRated(topRatedFilmsList!!, navigationController)
+        TopRated(topRatedFilmsList!!, navigationController, networkState)
     }
 }
 
 @Composable
-fun PopularMoviesList(videos: List<Result>, navigationController: NavHostController) {
+fun PopularMoviesList(
+    videos: List<Result>,
+    navigationController: NavHostController,
+    networkState: Boolean
+) {
 
     val localContext = LocalContext.current
 
@@ -439,7 +443,7 @@ fun PopularMoviesList(videos: List<Result>, navigationController: NavHostControl
                                     content.id.toString(),
                                     StandardCharsets.UTF_8.toString()
                                 )
-                            if (encodedUrl.isNotEmpty()) {
+                            if (encodedUrl.isNotEmpty() and  networkState) {
                                 navigationController.navigate("${Destinations.MOVIE_DETAILS_SCREEN.name}/$encodedUrl")
                             } else {
                                 Toast
@@ -480,7 +484,11 @@ fun PopularMoviesList(videos: List<Result>, navigationController: NavHostControl
 }
 
 @Composable
-fun TrendingNowList(videos: List<Result>, navigationController: NavHostController) {
+fun TrendingNowList(
+    videos: List<Result>,
+    navigationController: NavHostController,
+    networkState: Boolean
+) {
 
     val localContext = LocalContext.current
 
@@ -510,7 +518,7 @@ fun TrendingNowList(videos: List<Result>, navigationController: NavHostControlle
                                     content.id.toString(),
                                     StandardCharsets.UTF_8.toString()
                                 )
-                            if (encodedUrl.isNotEmpty()) {
+                            if (encodedUrl.isNotEmpty() and networkState) {
                                 navigationController.navigate("${Destinations.MOVIE_DETAILS_SCREEN.name}/$encodedUrl")
                             } else {
                                 Toast
@@ -551,7 +559,7 @@ fun TrendingNowList(videos: List<Result>, navigationController: NavHostControlle
 }
 
 @Composable
-fun TopRated(videos: List<Result>, navigationController: NavHostController) {
+fun TopRated(videos: List<Result>, navigationController: NavHostController, networkState: Boolean) {
 
     val localContext = LocalContext.current
 
@@ -581,7 +589,7 @@ fun TopRated(videos: List<Result>, navigationController: NavHostController) {
                                     content.id.toString(),
                                     StandardCharsets.UTF_8.toString()
                                 )
-                            if (encodedUrl.isNotEmpty()) {
+                            if (encodedUrl.isNotEmpty() and networkState) {
                                 navigationController.navigate("${Destinations.MOVIE_DETAILS_SCREEN.name}/$encodedUrl")
                             } else {
                                 Toast
