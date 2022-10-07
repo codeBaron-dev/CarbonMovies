@@ -30,12 +30,14 @@ fun ScreensNavigationManager(
         composable(Destinations.HOME_SCREEN.name) {
             MovieRequestHandler(mainActivity, networkState, navController)
         }
-        composable("${Destinations.MOVIE_DETAILS_SCREEN.name}/{movie_id}",
+        composable(
+            "${Destinations.MOVIE_DETAILS_SCREEN.name}/{movie_id}",
             arguments = listOf(navArgument("movie_id") {
                 defaultValue = "1"
             })
         ) { stackEntry ->
-            stackEntry.arguments?.getString("movie_id")?.let { FilmDetailsRequestHandler(it, networkState) }
+            stackEntry.arguments?.getString("movie_id")
+                ?.let { FilmDetailsRequestHandler(it, networkState) }
         }
     }
 }
